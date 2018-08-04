@@ -1,0 +1,51 @@
+class Solution:
+    """
+    @param: root: The root of the binary tree.
+    @param: A: A TreeNode
+    @param: B: A TreeNode
+    @return: Return the LCA of the two nodes.
+    """
+    def lowestCommonAncestor3(self, root, A, B):
+        # write your code here
+        v = [False, False]
+        lca = self.findLCAUtil(root, A, B, v)
+        
+        if (v[0] and v[1] or v[0] and self.find(lca, B) or v[1] and self.find(lca, A)):
+            return lca
+
+        # Else return None
+        return None
+
+
+    def findLCAUtil(self, root, A, B, v):
+        if root is None:
+            return None
+
+        if root is A :
+            v[0] = True
+            return root
+
+        if root is B:
+            v[1] = True
+            return root
+
+        left_lca = self.findLCAUtil(root.left, A, B, v)
+        right_lca = self.findLCAUtil(root.right, A, B, v)
+
+        if left_lca and right_lca:
+            return root 
+
+        # Otherwise check if left subtree or right subtree is LCA
+        return left_lca if left_lca is not None else right_lca
+   
+
+    def find(self, root, k):
+        if root is None:
+            return False
+    
+        if (root is k or self.find(root.left, k) or
+            self.find(root.right, k)):
+            return True
+
+        # Else return false
+        return False
