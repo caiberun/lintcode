@@ -1,0 +1,21 @@
+    def findCheapestPrice(self, n, flights, src, dst, K):
+        # write your code here
+        q = [(src, -1, 0)]
+        
+        final_price = -1
+        
+        while q:
+            new_src, k, curr_price = q.pop(0)
+            
+            if k >= K:
+                return final_price
+                
+            for i, f in enumerate(flights):
+                if f[0] == new_src:
+                    if f[1] == dst:
+                        if final_price == -1:
+                            final_price = curr_price + f[2]
+                        else:
+                            final_price = min(curr_price+f[2], final_price)
+                    else:
+                        q.append((f[1], k+1, curr_price+f[2]))
