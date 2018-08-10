@@ -23,6 +23,9 @@
                         else:
                             final_price = min(curr_price+v, final_price)
                     else:
+                        # Pruning is important!
+                        if final_price != -1 and curr_price + v > final_price:
+                            continue
                         q.append((i, k+1, curr_price+v))
                         
         return final_price
