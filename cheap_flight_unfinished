@@ -3,19 +3,26 @@
         q = [(src, -1, 0)]
         
         final_price = -1
+
+        flight_mat = [[None] * n for i in range(n)]
+        
+        for v in flights:
+            flight_mat[v[0]][v[1]] = v[2]
         
         while q:
-            new_src, k, curr_price = q.pop(0)
+            curr_src, k, curr_price = q.pop(0)
             
             if k >= K:
                 return final_price
                 
-            for i, f in enumerate(flights):
-                if f[0] == new_src:
-                    if f[1] == dst:
+            for i, v in enumerate(flight_mat[curr_src]):
+                if v is not None:
+                    if dst == i:
                         if final_price == -1:
-                            final_price = curr_price + f[2]
+                            final_price = curr_price + v
                         else:
-                            final_price = min(curr_price+f[2], final_price)
+                            final_price = min(curr_price+v, final_price)
                     else:
-                        q.append((f[1], k+1, curr_price+f[2]))
+                        q.append((i, k+1, curr_price+v))
+                        
+        return final_price
