@@ -1,0 +1,23 @@
+    def lengthOfLongestSubstring(self, s):
+        # write your code here
+        if not s:
+            return 0
+
+        curr_len = 0
+        max_len = 0
+        visited = {}
+        for i, l in enumerate(s):
+            if ord(l) in visited:
+                prev_ind = visited[ord(l)]
+                if prev_ind < i - curr_len:
+                    curr_len += 1
+                    max_len = max(max_len, curr_len)
+                else:
+                    curr_len = i - prev_ind
+            else:
+                curr_len += 1
+                max_len = max(max_len, curr_len)
+                
+            visited[ord(l)] = i
+            
+        return max_len
