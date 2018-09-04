@@ -1,0 +1,35 @@
+class Solution:
+    """
+    @param s: the given expression
+    @return: the result of expression
+    """
+    def calculate(self, s):
+        # Write your code here
+        num = curr_ans = res = 0
+        op = "+"
+        
+        for i, l in enumerate(s):
+            if ord(l) >= ord("0") and ord(l) <= ord("9"):
+                num = num * 10 + int(l)
+
+            if l in ("+", "-", "*", "/") or i == len(s) - 1:
+                print num, curr_ans, res
+                if op == "+":
+                    curr_ans += num
+                elif op == "-":
+                    curr_ans -= num
+                elif op == "*":
+                    curr_ans *= num
+                elif op == "/":
+                    # This line round towards zero
+                    curr_ans = int(float(curr_ans)/num)
+                    print curr_ans
+            
+                if l in ("+", "-") or i == len(s) - 1:
+                    res += curr_ans
+                    curr_ans = 0
+                
+                num = 0
+                op = l
+            
+        return res
